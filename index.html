@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" xml:lang="en" xmlns= "http://www.w3.org/1999/xhtml">
+<head>
+    <title>encoji</title>
+    <meta name="description" content="Emoji Encoding">
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="en">
+    <!-- Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📟</text></svg>">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Custom JavaScript  -->
+    <script type="text/javascript" src="script.js"></script>
+</head>
+
+<body>
+    <div id="header">
+        <div id="title">
+            <h1>enco<span id="left-eye">ȷ</span><span id="right-eye">ı</span></h1>
+            <h3>custom emoji encoder</h3> 
+        </div>
+        <div style="text-align: center;">
+            <div id="encode-toggle">
+                <div>
+                    <button id="encoder-button" onclick="toggleMode(true)" class="toggled-on">encoder</button>
+                    <button id="decoder-button" onclick="toggleMode(false)">decoder</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="alphabet-row">
+        <div id="alphabet-field">
+            <p>custom emojis</p>
+            <input type="text" id="alphabet-input" oninput="encode()">
+        </div>
+    </div>
+    
+
+    <div id="converter-row">
+        <div id="plain-field">
+            <div class="textarea-label">
+                <p>plaintext</p>
+                <button id="plaintext-copy-button" class="copy-icon hidden" disabled="true" onclick="copyText('input-textarea', 'plaintext-copy-icon')">
+                    <img id="plaintext-copy-icon" src="assets/copy.svg">
+                </button>
+            </div>
+            <textarea type="text" id="input-textarea" oninput="encode()"></textarea>
+        </div>
+        <div id="converter-row-gap"></div>
+        <div id="encoded-field">
+            <div class="textarea-label">
+                <p>encoded</p>
+                <button id="encoded-copy-button" class="copy-icon" onclick="copyText('output-textarea', 'encoded-copy-icon')">
+                    <img id="encoded-copy-icon" src="assets/copy.svg">
+                </button>
+            </div>
+            <div class="relative">
+                <textarea type="text" id="output-textarea" oninput="decode()" readonly="readonly"></textarea>  
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <p>encoji.com © 2024</p>
+    </div>
+</body>
+
+</html>

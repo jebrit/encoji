@@ -154,3 +154,49 @@ function splitHeaderMessage(messageArr) {
 function textToSegmented(text) {
   return Array.from(textSegmenter.segment(text)).map(s => s.segment);
 }
+
+// UI
+
+function toggleMode(encodeMode) {
+  if (encodeMode == encodeModeStatus) {
+    return;
+  }
+  encodeModeStatus = encodeMode;
+  if (encodeMode) {
+    document.getElementById("encoder-button").classList.add("toggled-on");
+    document.getElementById("decoder-button").classList.remove("toggled-on");
+    document.getElementById("converter-row").classList.remove("reverse");
+    document.getElementById("input-textarea").removeAttribute('readonly');
+    document.getElementById("output-textarea").setAttribute('readonly', 'readonly');
+    document.getElementById("alphabet-input").removeAttribute('readonly');
+    document.getElementById("plaintext-copy-button").classList.add("hidden");
+    document.getElementById("plaintext-copy-button").disabled = true;
+    document.getElementById("encoded-copy-button").classList.remove("hidden");
+    document.getElementById("encoded-copy-button").removeAttribute("disabled");
+    encode();
+  } else {
+    document.getElementById("encoder-button").classList.remove("toggled-on");
+    document.getElementById("decoder-button").classList.add("toggled-on");
+    document.getElementById("converter-row").classList.add("reverse");
+    document.getElementById("input-textarea").setAttribute('readonly', 'readonly');
+    document.getElementById("output-textarea").removeAttribute('readonly');
+    document.getElementById("alphabet-input").setAttribute('readonly', 'readonly');
+    document.getElementById("encoded-copy-button").classList.add("hidden");
+    document.getElementById("encoded-copy-button").disabled = true;
+    document.getElementById("plaintext-copy-button").classList.remove("hidden");
+    document.getElementById("plaintext-copy-button").removeAttribute("disabled");
+    decode();
+  }
+}
+
+function copyText(textId, iconId) {
+  const text = document.getElementById(textId).value;
+  navigator.clipboard.writeText(text).then(function() {
+    document.getElementById(iconId).src = "assets/check.svg";
+    setTimeout(function() {
+      document.getElementById(iconId).src = "assets/copy.svg";
+    }, 1500);
+  }, function(err) {
+    console.error("Could not copy to clipboard: ", err);
+  });
+}

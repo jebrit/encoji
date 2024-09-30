@@ -21,15 +21,17 @@ function encode() {
     document.getElementById("output-textarea").value = "";
     return;
   }
-
-  const uint8Array = textToUint8Array(text_input_str);
-  const binaryText = uint8ArrayToBinaryText(uint8Array);
-  const number = binaryTextToNumber(binaryText);
-  const baseDigitArray = numberToBaseDigitArray(number, base);
-  const emojiText = baseDigitArrayToAlphabetEncodedText(baseDigitArray, alphabet, base);
-  const fullOutput = alphabet.join("") + emojiText;
-
-  document.getElementById("output-textarea").value = fullOutput;
+  try {
+    const uint8Array = textToUint8Array(text_input_str);
+    const binaryText = uint8ArrayToBinaryText(uint8Array);
+    const number = binaryTextToNumber(binaryText);
+    const baseDigitArray = numberToBaseDigitArray(number, base);
+    const emojiText = baseDigitArrayToAlphabetEncodedText(baseDigitArray, alphabet, base);
+    const fullOutput = alphabet.join("") + emojiText;
+    document.getElementById("output-textarea").value = fullOutput;
+  } catch (e) {
+    document.getElementById("output-textarea").value = "";
+  }
 }
 
 
@@ -45,13 +47,16 @@ function decode() {
 
   document.getElementById("alphabet-input").value = alphabet.join("");
   
-  const baseDigitArray = alphabetEncodedSegmentsToBaseDigitArray(encodedMessage, alphabet, base);
-  const number = baseDigitArrayToNumber(baseDigitArray, base);
-  const binaryText = numberToBinaryText(number);
-  const uint8Array = binaryTextToUint8Array(binaryText);
-  const text = uint8ArrayToText(uint8Array);
-
-  document.getElementById("input-textarea").value = text;
+  try {
+    const baseDigitArray = alphabetEncodedSegmentsToBaseDigitArray(encodedMessage, alphabet, base);
+    const number = baseDigitArrayToNumber(baseDigitArray, base);
+    const binaryText = numberToBinaryText(number);
+    const uint8Array = binaryTextToUint8Array(binaryText);
+    const text = uint8ArrayToText(uint8Array);
+    document.getElementById("input-textarea").value = text;
+  } catch(e) {
+    document.getElementById("input-textarea").value = "";
+  }
 }
 
 // Encode

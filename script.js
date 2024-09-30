@@ -2,8 +2,6 @@ const utf8Encoder = new TextEncoder("utf-8");
 const utf8Decoder = new TextDecoder("utf-8");
 const textSegmenter = new Intl.Segmenter('en', { granularity: 'grapheme' });
 
-const base62 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; // same first 36 characters as .toString(base)
-
 let encodeModeStatus = true;
 
 function encode() {
@@ -19,7 +17,7 @@ function encode() {
   const alphabet_input_str = document.getElementById("alphabet-input").value;
   const alphabet = textToSegmented(alphabet_input_str)
   const base = alphabet.length;
-  if (base < 2 || base > 62) {
+  if (base < 2) {
     document.getElementById("output-textarea").value = "";
     return;
   }
@@ -27,8 +25,8 @@ function encode() {
   const uint8Array = textToUint8Array(text_input_str);
   const binaryText = uint8ArrayToBinaryText(uint8Array);
   const number = binaryTextToNumber(binaryText);
-  const baseEncodedText = numberToBaseEncodedText(number, base);
-  const emojiText = baseEncodedTextToAlphabetEncodedText(baseEncodedText, alphabet, base);
+  const baseDigitArray = numberToBaseDigitArray(number, base);
+  const emojiText = baseDigitArrayToAlphabetEncodedText(baseDigitArray, alphabet, base);
   const fullOutput = alphabet.join("") + emojiText;
 
   document.getElementById("output-textarea").value = fullOutput;
@@ -47,8 +45,8 @@ function decode() {
 
   document.getElementById("alphabet-input").value = alphabet.join("");
   
-  const baseEncodedText = alphabetEncodedSegmentsToBaseEncodedText(encodedMessage, alphabet, base);
-  const number = baseEncodedTextToNumber(baseEncodedText, base);
+  const baseDigitArray = alphabetEncodedSegmentsToBaseDigitArray(encodedMessage, alphabet, base);
+  const number = baseDigitArrayToNumber(baseDigitArray, base);
   const binaryText = numberToBinaryText(number);
   const uint8Array = binaryTextToUint8Array(binaryText);
   const text = uint8ArrayToText(uint8Array);
@@ -70,48 +68,43 @@ function binaryTextToNumber(binaryText) {
   return BigInt('0b' + binaryText);
 }
 
-function numberToBaseEncodedText(number, base) {
-  if (base <= 36) {
-    return number.toString(base);
-  }
-  const baseAlphabet = base62.slice(0, base);
-  let numericValue = BigInt(number);
-  const baseDivider = BigInt(base);
-  let baseEncodedString = "";
-  while (numericValue > 0) {
-    baseEncodedString = baseAlphabet[numericValue % baseDivider] + baseEncodedString;
-    numericValue = numericValue / baseDivider;
-  }
-  return baseEncodedString;
+function numberToBaseEncodedTextOld(number, base) {
+  return number.toString(base);
 }
 
-function baseEncodedTextToAlphabetEncodedText(baseEncodedText, alphabet, base) {
-  return Array.from(baseEncodedText).map(i => {
-    const alphabetIndex = parseInt(i, base);
-    return alphabet[alphabetIndex];
+function numberToBaseDigitArray(number, base){
+  let numericValue = BigInt(number);
+  const baseDivider = BigInt(base);
+  let baseDigitArray = [];
+  while (numericValue > 0) {
+    baseDigitArray.push(numericValue % baseDivider);
+    numericValue = numericValue / baseDivider;
+  }
+  return baseDigitArray.reverse();
+}
+
+function baseDigitArrayToAlphabetEncodedText(baseDigitArray, alphabet, base) {
+  return baseDigitArray.map(i => {
+    return alphabet[i];
   }).join("");
 }
 
 // Decode
 
-function alphabetEncodedSegmentsToBaseEncodedText(alphabetEncodedArr, alphabet, base) {
+function alphabetEncodedSegmentsToBaseDigitArray(alphabetEncodedArr, alphabet, base) {
   const alphabetMap = alphabet.reduce((acc, item, index) => {
     acc[item] = index;
     return acc;
   }, {});
 
-  return alphabetEncodedArr.map(item => {
-    const alphabetIndex = alphabetMap[item];
-    const baseDigit = alphabetIndex.toString(base);
-    return baseDigit;
-  }).join("");
+  return alphabetEncodedArr.map(item => alphabetMap[item]);
 }
 
-function baseEncodedTextToNumber(str, base) {
+function baseDigitArrayToNumber(baseDigitArray, base) {
   let numericValue = BigInt(0);
   const baseMultiplier = BigInt(base)
-  for (let i = 0; i < str.length; i++) {
-    const digit = BigInt(parseInt(str[i], base));
+  for (let i = 0; i < baseDigitArray.length; i++) {
+    const digit = BigInt(baseDigitArray[i]);
     numericValue = numericValue * baseMultiplier + digit;
   }
   return numericValue;

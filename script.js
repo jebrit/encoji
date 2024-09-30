@@ -2,6 +2,8 @@ const utf8Encoder = new TextEncoder("utf-8");
 const utf8Decoder = new TextDecoder("utf-8");
 const textSegmenter = new Intl.Segmenter('en', { granularity: 'grapheme' });
 
+const base62 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; // same first 36 characters as .toString(base)
+
 let encodeModeStatus = true;
 
 function encode() {
@@ -17,7 +19,7 @@ function encode() {
   const alphabet_input_str = document.getElementById("alphabet-input").value;
   const alphabet = textToSegmented(alphabet_input_str)
   const base = alphabet.length;
-  if (base < 2 || base > 36) {
+  if (base < 2 || base > 62) {
     document.getElementById("output-textarea").value = "";
     return;
   }
@@ -69,7 +71,18 @@ function binaryTextToNumber(binaryText) {
 }
 
 function numberToBaseEncodedText(number, base) {
-  return number.toString(base);
+  if (base <= 36) {
+    return number.toString(base);
+  }
+  const baseAlphabet = base62.slice(0, base);
+  let numericValue = BigInt(number);
+  const baseDivider = BigInt(base);
+  let baseEncodedString = "";
+  while (numericValue > 0) {
+    baseEncodedString = baseAlphabet[numericValue % baseDivider] + baseEncodedString;
+    numericValue = numericValue / baseDivider;
+  }
+  return baseEncodedString;
 }
 
 function baseEncodedTextToAlphabetEncodedText(baseEncodedText, alphabet, base) {

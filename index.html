@@ -26,17 +26,17 @@
             <h1>enco<span id="left-eye">ȷ</span><span id="right-eye">ı</span></h1>
             <h3>custom emoji encoder</h3> 
         </div>
-        <div style="text-align: center;">
-            <div id="encode-toggle">
-                <div>
-                    <button id="encoder-button" onclick="toggleMode(true)" class="toggled-on">encoder</button>
-                    <button id="decoder-button" onclick="toggleMode(false)">decoder</button>
-                </div>
+    </div>
+    <div style="text-align: center;">
+        <div id="encode-toggle" class="card">
+            <div>
+                <button id="encoder-button" onclick="toggleMode(true)" class="toggled-on">encoder</button>
+                <button id="decoder-button" onclick="toggleMode(false)">decoder</button>
             </div>
         </div>
     </div>
     
-    <div id="alphabet-row">
+    <div id="alphabet-row" class="card">
         <div id="alphabet-field">
             <p>custom emojis</p>
             <input type="text" id="alphabet-input" oninput="encode()">
@@ -44,7 +44,7 @@
     </div>
     
 
-    <div id="converter-row">
+    <div id="converter-row" class="card">
         <div id="plain-field">
             <div class="textarea-label">
                 <p>plaintext</p>
@@ -52,7 +52,7 @@
                     <img id="plaintext-copy-icon" src="assets/copy.svg">
                 </button>
             </div>
-            <textarea type="text" id="input-textarea" oninput="encode()"></textarea>
+            <textarea type="text" id="input-textarea" class="left-textarea" oninput="encode()"></textarea>
         </div>
         <div id="converter-row-gap"></div>
         <div id="encoded-field">
@@ -68,7 +68,7 @@
         </div>
     </div>
     <div id="footer">
-        <p>encoji.com © 2024</p>
+        <p>encoji.com © 2024  | source | jebrit </p>
     </div>
 </body>
 

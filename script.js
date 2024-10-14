@@ -173,6 +173,8 @@ function toggleMode(encodeMode) {
     document.getElementById("converter-row").classList.remove("reverse");
     document.getElementById("input-textarea").removeAttribute('readonly');
     document.getElementById("output-textarea").setAttribute('readonly', 'readonly');
+    document.getElementById("input-textarea").classList.add('left-textarea');
+    document.getElementById("output-textarea").classList.remove('left-textarea');
     document.getElementById("alphabet-input").removeAttribute('readonly');
     document.getElementById("plaintext-copy-button").classList.add("hidden");
     document.getElementById("plaintext-copy-button").disabled = true;
@@ -185,6 +187,8 @@ function toggleMode(encodeMode) {
     document.getElementById("converter-row").classList.add("reverse");
     document.getElementById("input-textarea").setAttribute('readonly', 'readonly');
     document.getElementById("output-textarea").removeAttribute('readonly');
+    document.getElementById("input-textarea").classList.remove('left-textarea');
+    document.getElementById("output-textarea").classList.add('left-textarea');
     document.getElementById("alphabet-input").setAttribute('readonly', 'readonly');
     document.getElementById("encoded-copy-button").classList.add("hidden");
     document.getElementById("encoded-copy-button").disabled = true;

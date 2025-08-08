@@ -45,14 +45,14 @@ h1 {
 }
 
 #right-eye:before {
-  content: url("assets/eye-right.svg");
+  content: url("../assets/eye-right.svg");
   width: 0.5em;
   top: -0.45em;
   left: -0.04em;
 }
 
 #left-eye:before {
-  content: url("assets/eye-left.svg");
+  content: url("../assets/eye-left.svg");
   width: 0.5em;
   top: -0.45em;
   left: -0.20em;

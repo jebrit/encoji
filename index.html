@@ -17,7 +17,9 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
     <!-- Custom JavaScript  -->
-    <script type="text/javascript" src="script.js"></script>
+    <!-- <script type="text/javascript" src="script.js"></script> -->
+    <script type="text/javascript" src="logic.js"></script>
+    <script type="text/javascript" src="ui.js"></script>
 </head>
 
 <body>
@@ -28,8 +30,8 @@
     <div style="text-align: center;">
         <div id="encode-toggle" class="card">
             <div>
-                <button id="encoder-button" onclick="toggleMode(true)" class="toggled-on">encoder</button>
-                <button id="decoder-button" onclick="toggleMode(false)">decoder</button>
+                <button id="encoder-button" onclick="switchMode(Mode.ENCODE)" class="toggled-on">encoder</button>
+                <button id="decoder-button" onclick="switchMode(Mode.DECODE)">decoder</button>
             </div>
         </div>
     </div>
@@ -37,7 +39,7 @@
     <div id="alphabet-row" class="card">
         <div id="alphabet-field">
             <p>custom emojis</p>
-            <input type="text" id="alphabet-input" oninput="encode()">
+            <input type="text" id="alphabet-input" oninput="encodeUpdate()">
         </div>
     </div>
     
@@ -50,7 +52,7 @@
                     <img id="plaintext-copy-icon" src="assets/copy.svg">
                 </button>
             </div>
-            <textarea type="text" id="input-textarea" class="left-textarea" oninput="encode()"></textarea>
+            <textarea type="text" id="input-textarea" class="left-textarea" oninput="encodeUpdate()"></textarea>
         </div>
         <div id="converter-row-gap"></div>
         <div id="encoded-field">
@@ -61,7 +63,7 @@
                 </button>
             </div>
             <div class="relative">
-                <textarea type="text" id="output-textarea" oninput="decode()" readonly="readonly"></textarea>  
+                <textarea type="text" id="output-textarea" oninput="decodeUpdate()" readonly="readonly"></textarea>  
             </div>
         </div>
     </div>
